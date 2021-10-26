@@ -56,3 +56,10 @@ async def get_direction(direction_name: DirectionName):
 @app.get("/{book_name}")
 async def read_book(book_name: str):
     return BOOKS[book_name]
+
+#Criando uma função query para eliminar o book_3 do dicionario
+@app.get("/books/filter")
+async def filter_book_3(skip_book: str = 'book_3'):
+    new_books = BOOKS.copy()
+    del new_books[skip_book]
+    return new_books
