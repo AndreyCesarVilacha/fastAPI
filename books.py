@@ -51,3 +51,8 @@ async def get_direction(direction_name: DirectionName):
         return {"Direction": direction_name, "sub": "right"}
     if direction_name == DirectionName.west:
         return {"Direction": direction_name, "sub": "left"}
+
+#Função que retorna um valor do dicionario BOOKS
+@app.get("/{book_name}")
+async def read_book(book_name: str):
+    return BOOKS[book_name]
