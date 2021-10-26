@@ -85,3 +85,13 @@ async def create_book(book_title, book_author):
     BOOKS[f'book_{current_book_id + 1}'] = {'title': book_title, 'author': book_author}
     #Retorna o novo dicionario com a nova entrada
     return BOOKS[f'book_{current_book_id + 1}']
+
+@app.put("/books/{book_name}")
+#Passando para a função as informações que queremos mudar
+async def update_book(book_name: str, book_title: str, book_author: str):
+    #uma val para armazenar o novo titulo e o novo autor
+    book_information = {'title': book_title, 'author': book_author}
+    #Passamos esse novo valor para o local escolhido
+    BOOKS[book_name] = book_information
+    #Retornamos a val com os novos valores
+    return book_information
