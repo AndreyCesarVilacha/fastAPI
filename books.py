@@ -19,3 +19,9 @@ BOOKS ={
 #Criando uma função async que vai ser retornada quando acessar a raiz
 async def read_all_books():
     return BOOKS
+
+#Usando o método get com parâmetro
+@app.get("/books/{book_title}")
+#O nome que é passado para o método get ({book_title}) precisa ser igual ao passado para a função
+async def get_book_title(book_title):
+    return {"book_title": book_title}
