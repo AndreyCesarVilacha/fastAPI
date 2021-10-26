@@ -21,7 +21,12 @@ async def read_all_books():
     return BOOKS
 
 #Usando o método get com parâmetro
-@app.get("/books/{book_title}")
+@app.get("/books/title_{book_title}")
 #O nome que é passado para o método get ({book_title}) precisa ser igual ao passado para a função
 async def get_book_title(book_title):
     return {"book_title": book_title}
+
+#Passando um parâmetro do tipo inteiro
+@app.get("/books/id_{book_id}")
+async def get_book_id(book_id: int):
+    return {"Book id: ": book_id}
