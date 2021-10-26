@@ -63,3 +63,25 @@ async def filter_book_3(skip_book: str = 'book_3'):
     new_books = BOOKS.copy()
     del new_books[skip_book]
     return new_books
+
+#Adicionando um valor ao dicionario
+@app.post("/books/post")
+#Os valores que devem para criar uma nova entrada no dicionario
+async def create_book(book_title, book_author):
+    #Var para indicar qual é o id atual
+    current_book_id = 0
+
+    #Confere se já existe uma entrada no dicionário
+    if len(BOOKS) > 0:
+        #Percorre os elementos no dicionario
+        for book in BOOKS:
+            #Passa o valor do tamnaho do dicionario para a val x
+            x = int(book.split('_')[-1])
+            #Verifica se a val x é maior que o id atual
+            if x > current_book_id:
+                #atribui o valor de x para o id atual
+                current_book_id = x
+    #Cria a entrada no dicionario passando os valores para a entrada
+    BOOKS[f'book_{current_book_id + 1}'] = {'title': book_title, 'author': book_author}
+    #Retorna o novo dicionario com a nova entrada
+    return BOOKS[f'book_{current_book_id + 1}']
