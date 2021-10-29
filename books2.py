@@ -31,7 +31,7 @@ BOOKS = []
 
 @app.get("/")
 async def read_all_books(books_to_return: Optional[int]= None):
-    if leb(BOOKS) <1:
+    if len(BOOKS) <1:
         create_book_no_api()
 
     #Retorna um livro especifico de BOOKS, ou retorna todos caso não encontre na query
@@ -44,6 +44,12 @@ async def read_all_books(books_to_return: Optional[int]= None):
             i +=1
         return new_books
     return BOOKS
+
+@app.get("/book/{book_id}")
+async def read_book(book_id:UUID):
+    for x in BOOKS:
+        if x.id ==book_id:
+            return x
 
 @app.post("/")
 async def create_book(book: Book):
