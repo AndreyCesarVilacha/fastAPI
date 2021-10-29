@@ -30,9 +30,19 @@ class Book(BaseModel):
 BOOKS = []
 
 @app.get("/")
-async def read_all_books():
+async def read_all_books(books_to_return: Optional[int]= None):
     if leb(BOOKS) <1:
         create_book_no_api()
+
+    #Retorna um livro especifico de BOOKS, ou retorna todos caso não encontre na query
+    if books_to_return and len(BOOKS) >= books_to_return > 0:
+        i=1
+        new_books = []
+
+        while i <= books_to_return:
+            new_books.append(BOOKS[i-1])
+            i +=1
+        return new_books
     return BOOKS
 
 @app.post("/")
