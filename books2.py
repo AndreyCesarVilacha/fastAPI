@@ -15,6 +15,18 @@ class Book(BaseModel):
     description: Optional[str] = Field(title="Descrição do livro", max_length=100,min_length=1)
     rating: int = Field(gt=-1, lt=101)
 
+    #muda o schema do docs para este exemplo
+    class Config:
+        schema_extra = {
+            "example":{
+                "id":"2b3d070-4f22-4e9f-bdf1-7566ad22b366",
+                "title": "Ciência da Computânção para Pros com python",
+                "author": "Andrey Cesar",
+                "description": "Uma descrição completa e bonita para o exemplo",
+                "rating": 75
+            }
+        }
+
 BOOKS = []
 
 @app.get("/")
