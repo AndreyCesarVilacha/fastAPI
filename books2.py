@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, HTTPException, Request, status, Form
 #Model para classes
 from pydantic import BaseModel, Field
 #Para gerar id unicas
@@ -32,6 +32,17 @@ class Book(BaseModel):
             }
         }
 
+class BookNoRating(BaseModel):
+    id: UUID
+    title: str = Field(min_length=1)
+    author: str
+    description: Optional[str] = Field(
+        None, 
+        title="description of the Book", 
+        max_length=100, 
+        min_length=1
+    )
+
 BOOKS = []
 
 @app.exception_handler(NegativeNumberException)
@@ -43,7 +54,11 @@ async def negative_number_exception_handler(request: Request,
                             f"books? You need to read more!"}
     )
 
-@app.get("/")
+@app.post("/books/login")
+async def book_login(username: str = Form(...), password: str = Form(...)):
+    return {"username": username, "password": password}
+
+@app.get("/", status_code=status.HTTP_201_CREATED)
 async def read_all_books(books_to_return: Optional[int]= None):
 
     if books_to_return and books_to_return < 0:
@@ -65,6 +80,14 @@ async def read_all_books(books_to_return: Optional[int]= None):
 
 @app.get("/book/{book_id}")
 async def read_book(book_id:UUID):
+    for x in BOOKS:
+        if x.id ==book_id:
+            return x
+    raise raise_item_cannot_be_found_exception()
+
+#Converte os dados para a Classe BookNoRating
+@app.get("/book/rating/{book_id}", response_model=BookNoRating)
+async def read_book_no_rating(book_id:UUID):
     for x in BOOKS:
         if x.id ==book_id:
             return x
