@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, Request, status, Form
+from fastapi import FastAPI, HTTPException, Request, status, Form, Header
 #Model para classes
 from pydantic import BaseModel, Field
 #Para gerar id unicas
@@ -57,6 +57,10 @@ async def negative_number_exception_handler(request: Request,
 @app.post("/books/login")
 async def book_login(username: str = Form(...), password: str = Form(...)):
     return {"username": username, "password": password}
+
+@app.get("/header")
+async def read_header(random_header: Optional[str] = Header(None)):
+    return {"Random-Header": random_header}
 
 @app.get("/", status_code=status.HTTP_201_CREATED)
 async def read_all_books(books_to_return: Optional[int]= None):
